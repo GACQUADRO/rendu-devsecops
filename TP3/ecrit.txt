@@ -1,0 +1,27 @@
+Exercice 1
+
+1. Environnement démarrer avec succès.
+
+2. admin : 
+{
+  "error": "Invalid credentials"
+}
+
+'1'='1' -- :
+{
+  "error": "Database error"
+}
+
+3. Cela ouvre une alerte
+
+Exercice 2
+
+1. Une fois le scan terminé, le scan a trouver plusieurs erreurs : 3 medium, 2 low, 2 information
+
+2. Scan effectuer
+
+3. 
+
+
+Le reste c'est modifié des fichiers, et ils ont été modifié.
+

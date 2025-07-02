@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vulnerable App - Lab</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin: 20px 0; }
+        input, button { padding: 10px; margin: 5px; }
+        .vulnerability { background: #ffe6e6; padding: 15px; margin: 10px 0; border-left: 4px solid #ff0000; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Application Vulnérable - Lab Sécurité</h1>
+        
+        <div class="vulnerability">
+            <h3>🚨 Vulnérabilités présentes :</h3>
+            <ul>
+                <li>Injection SQL dans /login</li>
+                <li>XSS dans /profile/:username</li>
+                <li>Secrets hardcodés exposés</li>
+                <li>Endpoints non sécurisés</li>
+                <li>Mots de passe loggés</li>
+            </ul>
+        </div>
+        
+        <h2>Test de connexion</h2>
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Username" value="admin">
+            <input type="password" id="password" placeholder="Password" value="password">
+            <button onclick="login()">Se connecter</button>
+        </div>
+        
+        <h2>Test XSS</h2>
+        <div class="form-group">
+            <input type="text" id="xss" placeholder="<script>alert('XSS')</script>" value="<script>alert('XSS')</script>">
+            <button onclick="testXSS()">Tester XSS</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const result = await response.json();
+                document.getElementById('result').innerHTML = 
+                    `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                document.getElementById('result').innerHTML = 
+                    `<p style="color: red;">Erreur: ${error.message}</p>`;
+            }
+        }
+        
+        function testXSS() {
+            const payload = document.getElementById('xss').value;
+            window.open(`/profile/${encodeURIComponent(payload)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
